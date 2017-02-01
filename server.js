@@ -12,6 +12,8 @@ router.use(express.static(path.resolve(__dirname, 'client')));
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({extended: false}));
 
+var accessToken = process.env.ACCESS_TOKEN;
+
 router.get('/webhook', (req, res) => {
   if(req.query['hub.mode'] === 'subscribe' && req.query['hub.verify_token'] === 'minhasenhaboladona' ){
     console.log('Validação concluída!');
@@ -53,14 +55,14 @@ function trataMensagem(event) {
   if (messageText) {
     switch (messageText) {
       case 'oi':
-        sendTextMessage(senderId, 'Oi, tudo bem?');
+        sendTextMessage(senderId, 'AUHDAUSHDUAH');
         break;
-        
+      case 'ola':
+        sendTextMessage(senderId, 'TEY TEY');
       case 'tchau':
         break;
       
       default:
-        
     }
   } else if (attachments) {
     console.log('Anexo recebido!');
@@ -70,7 +72,7 @@ function trataMensagem(event) {
 function callSendAPI (messageData) {
   request({
     uri: 'https://graph.facebook.com/v2.6/me/messages',
-    qs: { access_token: 'EAAQ4WlMFaPIBAI6wtIIZAnjA8rcYsZBNqrYyj9lmOTdkMVcKgUvAvBFtzPzzvpgoZC3syyUyrHvfZBC9lTuufMfSpvZCujVILeiQw2832sxlb6RmbCbqMeYpTZCxZArdEJyhRuWFWeD4bixORMXv6ZCZCrUEzZAFwFddZAejPqy44zgCAZDZD' },
+    qs: { access_token: accessToken },
     method: 'POST',
     json: messageData
   }, function(error, response, body) {
